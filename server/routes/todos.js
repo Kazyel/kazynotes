@@ -9,30 +9,27 @@ const {
 const router = express.Router();
 
 // Get all Todos
-
 router.get("/", async (req, res) => {
   const results = await getAllTodos();
-  res.status(200).json(results)
+  res.status(200).json(results);
 });
 
 // Creating
-
 router.post("/", async (req, res) => {
-  const newTodo = await createTodo(req.body);
-  res.status(201).send("New todo created");
+  await createTodo(req.body);
+  res.status(200).send("To-do Created.");
 });
 
 // Updating
-
 router.patch("/", async (req, res) => {
-  const updatedTodo = await updateTodo(req.body);
-  res.status(201).send("Todo updated!");
+  await updateTodo(req.body.content);
+  res.status(200).send("To-do Updated.");
 });
 
 // Delete one
 router.delete("/", async (req, res) => {
-  const deletedTodo = await deleteTodo(req.body);
-  res.status(201).send("Todo deleted.");
+  await deleteTodo(req.body.id);
+  res.status(200).send("To-do Deleted.");
 });
 
 module.exports = router;

@@ -8,6 +8,11 @@ const sequelize = new Sequelize({
 
 // Model
 const Todos = sequelize.define("Todos", {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
   content: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -17,17 +22,17 @@ const Todos = sequelize.define("Todos", {
 // Get All Todos
 const getAllTodos = async () => {
   const todos = await Todos.findAll();
-  return todos
+  return todos;
 };
 
 // Create Todos
-const createTodo = async (todo) => {
-  const newTodo = await Todos.create(todo);
+const createTodo = async (content) => {
+  await Todos.create(content);
 };
 
 // Update Todos
 const updateTodo = async (todo) => {
-  const updateTodo = await Todos.update(todo, {
+  await Todos.update(todo, {
     where: {
       id: todo.id,
     },
@@ -35,10 +40,10 @@ const updateTodo = async (todo) => {
 };
 
 // Delete Todos
-const deleteTodo = async (todo) => {
-  const deletedTodo = await Todos.destroy({
+const deleteTodo = async (id) => {
+  await Todos.destroy({
     where: {
-      id: todo.id,
+      id: id,
     },
   });
 };
@@ -47,5 +52,5 @@ module.exports = {
   getAllTodos,
   createTodo,
   updateTodo,
-  deleteTodo
+  deleteTodo,
 };
