@@ -1,9 +1,17 @@
+import { useDeleteTodos } from "../hooks/requests";
+
 type TodosProps = {
   data: [{ id: number; content: string }];
-  handleDelete: (id: number) => void;
 };
 
-const Todos = ({ data, handleDelete }: TodosProps) => {
+const Todos = ({ data }: TodosProps) => {
+  const { mutate: deleteTodo } = useDeleteTodos();
+
+  const handleDelete = (id: number) => {
+    const postId = { id: id };
+    deleteTodo(postId);
+  };
+
   return data.map(({ id, content }) => (
     <div
       key={id}

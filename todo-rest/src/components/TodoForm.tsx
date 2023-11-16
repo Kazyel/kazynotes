@@ -1,10 +1,26 @@
-type FormProps = {
-  handleSubmit: (e: React.SyntheticEvent) => void;
-  content: React.RefObject<HTMLInputElement>;
-  emptyString: React.RefObject<HTMLElement>;
-};
+import { useRef } from "react";
+import { usePostTodos } from "../hooks/requests";
 
-const TodoForm = ({ handleSubmit, content, emptyString }: FormProps) => {
+const TodoForm = () => {
+  const { mutate: postTodo} = usePostTodos();
+  const formInput = useRef<HTMLInputElement>(null);
+  const emptyString = useRef<HTMLElement>(null);
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const span = emptyString.current;
+    const postContent = { content: formInput.current?.value };
+
+    if (formInput.current?.value === "") {
+      span!.textContent = "The field cannot be empty.";
+      span!.classList.remove("hidden");
+    } else {
+      postTodo(postContent);
+      span!.textContent = "";
+      span!.classList.add("hidden");
+    }
+  };
+
   return (
     <form
       className="flex border rounded-md flex-col gap-3 py-6 px-4"
@@ -16,7 +32,7 @@ const TodoForm = ({ handleSubmit, content, emptyString }: FormProps) => {
       <input
         id="todo-content"
         className="border p-2"
-        ref={content}
+        ref={formInput}
         placeholder="Enter what you need to do..."
       ></input>
       <button className="p-2 text-white bg-blue-500 mt-2 rounded-sm hover:bg-blue-400 duration-300 ease-in-out transition-all">

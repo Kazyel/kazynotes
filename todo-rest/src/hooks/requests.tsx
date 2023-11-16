@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 export const useGetTodosQuery = () => {
@@ -9,11 +9,24 @@ export const useGetTodosQuery = () => {
 };
 
 export const usePostTodos = () => {
-  return useMutation({ mutationFn: postTodos });
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: postTodos,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
 };
 
 export const useDeleteTodos = () => {
-  return useMutation({ mutationFn: deleteTodos });
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: deleteTodos,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["todos"] });
+    },
+  });
 };
 
 const getTodos = async () => {
