@@ -1,7 +1,8 @@
 import { useDeleteTodos } from "../hooks/requests";
+import TodoContext from "./TodoContent";
 
-type TodosProps = {
-  data: [{ id: number; content: string }];
+export type TodosProps = {
+  data: [{ id: number; content: string; checked: boolean }];
 };
 
 const Todos = ({ data }: TodosProps) => {
@@ -12,12 +13,12 @@ const Todos = ({ data }: TodosProps) => {
     deleteTodo(postId);
   };
 
-  return data.map(({ id, content }) => (
+  return data.map(({ id, content, checked }) => (
     <div
       key={id}
       className="flex justify-between w-full items-center border gap-4 mt-2 rounded-md px-4 py-6"
     >
-      <p className="font-semibold text-lg">{content}</p>
+      <TodoContext id={id} content={content} checked={checked}/>
       <svg
         onClick={() => handleDelete(id)}
         xmlns="http://www.w3.org/2000/svg"

@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { usePostTodos } from "../hooks/requests";
 
 const TodoForm = () => {
-  const { mutate: postTodo} = usePostTodos();
+  const { mutate: postTodo } = usePostTodos();
   const formInput = useRef<HTMLInputElement>(null);
   const emptyString = useRef<HTMLElement>(null);
 

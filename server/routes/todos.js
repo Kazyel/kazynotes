@@ -4,7 +4,7 @@ const {
   createTodo,
   updateTodo,
   deleteTodo,
-} = require("../utils/sqlize");
+} = require("../utils/sql/todo_sequelize");
 
 const router = express.Router();
 
@@ -22,8 +22,9 @@ router.post("/", async (req, res) => {
 
 // Updating
 router.patch("/", async (req, res) => {
-  await updateTodo(req.body.content);
-  res.status(200).send("To-do Updated.");
+  await updateTodo(req.body);
+  const results = await getAllTodos();
+  res.status(200).json(results);
 });
 
 // Delete one

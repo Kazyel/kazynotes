@@ -4,7 +4,6 @@ import Todos from "./components/Todos";
 
 function App() {
   const { data, status } = useGetTodosQuery();
-
   return (
     <main className="flex p-4 justify-center w-full flex-col items-center">
       {status === "pending" ? (

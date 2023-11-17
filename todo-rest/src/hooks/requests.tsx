@@ -10,7 +10,7 @@ export const useGetTodosQuery = () => {
 
 export const usePostTodos = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: postTodos,
     onSuccess: () => {
@@ -29,6 +29,16 @@ export const useDeleteTodos = () => {
   });
 };
 
+export const useUpdateTodos = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: updateTodos,
+    onSuccess: ({ data }) => {
+      queryClient.setQueryData(["todos"], data);
+    },
+  });
+};
+
 const getTodos = async () => {
   const response = await axios.get("http://localhost:3000/todos");
   return response.data;
@@ -36,6 +46,11 @@ const getTodos = async () => {
 
 const postTodos = (todo: object) => {
   return axios.post("http://localhost:3000/todos", todo);
+};
+
+// const updateTodos =
+const updateTodos = (todo: object) => {
+  return axios.patch("http://localhost:3000/todos", todo);
 };
 
 const deleteTodos = (todo: object) => {
