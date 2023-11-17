@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { useUpdateTodos } from "../hooks/requests";
+import { useUpdateTodos } from "../../hooks/todosRequests";
 
 type ContentProps = {
   id: number;
@@ -8,7 +7,6 @@ type ContentProps = {
 };
 
 const TodoContext = ({ id, content, checked }: ContentProps) => {
-  const ref = useRef<HTMLInputElement>(null);
   const { mutate } = useUpdateTodos();
 
   const handleCheck = (id: number) => {
@@ -22,7 +20,6 @@ const TodoContext = ({ id, content, checked }: ContentProps) => {
         className="w-4"
         checked={checked}
         onChange={() => handleCheck(id)}
-        ref={ref}
       />
       <p className={`font-semibold text-lg ${checked ? "line-through " : ""}`}>
         {content}

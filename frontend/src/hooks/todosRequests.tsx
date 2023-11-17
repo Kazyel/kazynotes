@@ -1,7 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
-export const useGetTodosQuery = () => {
+export const todoURL = "http://localhost:3000/todos";
+
+export const useGetTodos = () => {
   return useQuery({
     queryKey: ["todos"],
     queryFn: async () => getTodos(),
@@ -40,21 +42,21 @@ export const useUpdateTodos = () => {
 };
 
 const getTodos = async () => {
-  const response = await axios.get("http://localhost:3000/todos");
+  const response = await axios.get(todoURL);
   return response.data;
 };
 
-const postTodos = (todo: object) => {
-  return axios.post("http://localhost:3000/todos", todo);
+const postTodos = async (todo: object) => {
+  return await axios.post(todoURL, todo);
 };
 
 // const updateTodos =
-const updateTodos = (todo: object) => {
-  return axios.patch("http://localhost:3000/todos", todo);
+const updateTodos = async (todo: object) => {
+  return await axios.patch(todoURL, todo);
 };
 
-const deleteTodos = (todo: object) => {
-  return axios.delete("http://localhost:3000/todos", {
+const deleteTodos = async (todo: object) => {
+  return await axios.delete(todoURL, {
     headers: {
       "Content-Type": "application/json",
     },

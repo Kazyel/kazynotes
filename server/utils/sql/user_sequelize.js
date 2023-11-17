@@ -16,13 +16,38 @@ const registerUser = async (user) => {
 };
 
 // Update Todos
-const loginUser = async (username) => {
+const loginUser = async (username, log) => {
   try {
     const user = await User.findOne({
       where: {
         username: username,
       },
     });
+    await User.update({isLoggedIn: log},{
+      where: {
+        username: username,
+      }
+    })
+
+    return user;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const logoutUser = async (username, log) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        username: username,
+      },
+    });
+    await User.update({isLoggedIn: log},{
+      where: {
+        username: username,
+      }
+    })
+
     return user;
   } catch (err) {
     console.log(err);

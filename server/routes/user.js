@@ -19,30 +19,35 @@ router.get("/:id", async (req, res) => {
 
 // Register user
 router.post("/register", async (req, res) => {
-  await registerUser(req.body);
-  res.status(200).send("User Created.");
+  try{
+    await registerUser(req.body);
+    res.status(200).send("User Created.");  
+  } catch {
+    res.status(400).send("User already exists.")
+  }
 });
 
 // Login
 router.post("/login", async (req, res) => {
   username = req.body.username;
   password = req.body.password;
-
+  log = req.body.isLoggedIn;
+  
   try {
-    const userResult = await loginUser(username);
+    const userResult = await loginUser(username, log);
     if (
       username == userResult.username &&
       hash(password) == userResult.getDataValue("password")
     ) {
       res.status(200).send("Login Authorized");
     } else {
-      res.status(400).send("Wrong password or username.");
+      res.status(400).send("Wrong password.");
     }
   } catch {
-    res.status(400).send("User doesn't exist");
+    const err = "User does not exist."
+    res.status(400).json(err);
   }
 });
-
 // Delete user
 router.delete("/delete/:id", async (req, res) => {
   const id = req.params.id;

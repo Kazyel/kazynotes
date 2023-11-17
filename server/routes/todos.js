@@ -7,7 +7,6 @@ const {
 } = require("../utils/sql/todo_sequelize");
 
 const router = express.Router();
-
 // Get all Todos
 router.get("/", async (req, res) => {
   const results = await getAllTodos();

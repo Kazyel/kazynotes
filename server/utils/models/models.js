@@ -67,14 +67,6 @@ User.hasMany(Todo, {
 
 Todo.belongsTo(User);
 
-// Todos.belongsTo(User);
-// User.create({
-//   username: "Jacks Sparrow",
-//   email: "mateus@gmail.com",
-//   password: "teste@102",
-// });
-// const todo = Todos.create({ content: "Black Pearl", username: "Jack Sparrow" });
-// console.log(User.findAll({}));
 // sequelize.sync({ force: true });
 
 module.exports = {

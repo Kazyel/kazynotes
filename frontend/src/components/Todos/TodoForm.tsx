@@ -1,10 +1,14 @@
 import { useRef } from "react";
-import { usePostTodos } from "../hooks/requests";
+import { usePostTodos } from "../../hooks/todosRequests";
+import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../context/userContext";
 
 const TodoForm = () => {
   const { mutate: postTodo } = usePostTodos();
   const formInput = useRef<HTMLInputElement>(null);
   const emptyString = useRef<HTMLElement>(null);
+  const { username } = useUserStore();
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -21,14 +25,26 @@ const TodoForm = () => {
     }
   };
 
+  const handleClick = () => {
+    navigate("/login");
+  };
+
   return (
     <form
       className="flex border rounded-md flex-col gap-3 py-6 px-4"
       onSubmit={handleSubmit}
     >
-      <label htmlFor="todo-content" className="font-semibold text-lg">
-        Kazyel's Todos
-      </label>
+      <div className="w-full flex justify-between items-center">
+        <label htmlFor="todo-content" className="font-semibold text-lg">
+          {`${username}`} To-dos
+        </label>
+        <button
+          className="bg-red-400 hover:bg-red-300 duration-150 transition-all ease-in-out p-2 rounded text-white font-semibold"
+          onClick={handleClick}
+        >
+          Logout
+        </button>
+      </div>
       <input
         id="todo-content"
         className="border p-2"

@@ -1,4 +1,4 @@
-import { useDeleteTodos } from "../hooks/requests";
+import { useDeleteTodos } from "../../hooks/todosRequests";
 import TodoContext from "./TodoContent";
 
 export type TodosProps = {
@@ -13,7 +13,7 @@ const Todos = ({ data }: TodosProps) => {
     deleteTodo(postId);
   };
 
-  return data.map(({ id, content, checked }) => (
+  return data?.map(({ id, content, checked }) => (
     <div
       key={id}
       className="flex justify-between w-full items-center border gap-4 mt-2 rounded-md px-4 py-6"
