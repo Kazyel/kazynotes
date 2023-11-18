@@ -1,12 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useUserStore } from "../context/userContext";
 
-export const todoURL = "http://localhost:3000/todos";
+export const todoURL = "http://localhost:3000/todos/";
 
 export const useGetTodos = () => {
+  const { userId } = useUserStore();
+
   return useQuery({
     queryKey: ["todos"],
-    queryFn: async () => getTodos(),
+    queryFn: async () => getTodos(userId),
   });
 };
 
@@ -33,16 +36,17 @@ export const useDeleteTodos = () => {
 
 export const useUpdateTodos = () => {
   const queryClient = useQueryClient();
+  const { userId } = useUserStore();
   return useMutation({
-    mutationFn: updateTodos,
+    mutationFn: async (variables: object) => updateTodos(variables, userId),
     onSuccess: ({ data }) => {
       queryClient.setQueryData(["todos"], data);
     },
   });
 };
 
-const getTodos = async () => {
-  const response = await axios.get(todoURL);
+const getTodos = async (userId: number) => {
+  const response = await axios.get(todoURL + `${userId}`);
   return response.data;
 };
 
@@ -51,8 +55,8 @@ const postTodos = async (todo: object) => {
 };
 
 // const updateTodos =
-const updateTodos = async (todo: object) => {
-  return await axios.patch(todoURL, todo);
+const updateTodos = async (todo: object, userId: number) => {
+  return await axios.patch(todoURL + `${userId}`, todo);
 };
 
 const deleteTodos = async (todo: object) => {

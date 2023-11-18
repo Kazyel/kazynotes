@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
-    path: "/todos",
+    path: "/",
     element: <App />,
   },
   {

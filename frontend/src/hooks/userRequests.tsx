@@ -3,18 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../context/userContext";
 
-const userURL = "http://localhost:3000/user";
+const userURL = "http://localhost:3000/user/";
 
 type loginData = {
   username: FormDataEntryValue | null;
   password: FormDataEntryValue | null;
-};
-
-export const useGetUserInfo = () => {
-  return useQuery({
-    queryKey: ["user"],
-    queryFn: async () => getUserInfo(),
-  });
 };
 
 export const useCreateUser = () => {
@@ -29,14 +22,16 @@ export const useCreateUser = () => {
 
 export const useLoginUser = () => {
   const navigate = useNavigate();
-  const { setIsLoggedIn, setUsername } = useUserStore();
+  const { setIsLoggedIn, setUsername, setUserId } = useUserStore();
 
   return useMutation({
     mutationFn: loginUser,
-    onSuccess: (data, variables: loginData) => {
+    onSuccess: async (data, variables: loginData) => {
       setIsLoggedIn(true);
       setUsername(`${variables.username}`);
-      navigate("/todos");
+      const { id } = await getUserInfo(variables.username);
+      setUserId(id);
+      navigate("/");
     },
     onError: (error) => {
       console.log(error);
@@ -55,13 +50,13 @@ export const useDeleteUser = () => {
   });
 };
 
-const getUserInfo = async () => {
-  const response = await axios.get(userURL);
+const getUserInfo = async (username: FormDataEntryValue | null) => {
+  const response = await axios.get(userURL + `${username}`);
   return response.data;
 };
 
 const createUser = async (user: object) => {
-  return await axios.post(userURL + "/register", user).catch((err) => {
+  return await axios.post(userURL + "register", user).catch((err) => {
     if (err.response) {
       const error = err.response.data;
       throw new Error(error);
@@ -71,7 +66,7 @@ const createUser = async (user: object) => {
 
 const loginUser = async (user: object) => {
   return await axios
-    .post(userURL + "/login", { ...user, isLoggedIn: true })
+    .post(userURL + "login", { ...user, isLoggedIn: true })
     .catch((err) => {
       if (err.response) {
         const error = err.response.data;

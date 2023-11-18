@@ -4,16 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../context/userContext";
 
 const TodoForm = () => {
+  const { username } = useUserStore();
   const { mutate: postTodo } = usePostTodos();
+  const navigate = useNavigate();
+  const { setIsLoggedIn, setUsername, userId } = useUserStore();
   const formInput = useRef<HTMLInputElement>(null);
   const emptyString = useRef<HTMLElement>(null);
-  const { username } = useUserStore();
-  const navigate = useNavigate();
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const span = emptyString.current;
-    const postContent = { content: formInput.current?.value };
+    const postContent = {
+      content: formInput.current?.value,
+      UserId: userId,
+    };
 
     if (formInput.current?.value === "") {
       span!.textContent = "The field cannot be empty.";
@@ -26,6 +30,8 @@ const TodoForm = () => {
   };
 
   const handleClick = () => {
+    setIsLoggedIn(false);
+    setUsername("");
     navigate("/login");
   };
 
@@ -38,12 +44,12 @@ const TodoForm = () => {
         <label htmlFor="todo-content" className="font-semibold text-lg">
           {`${username}`} To-dos
         </label>
-        <button
-          className="bg-red-400 hover:bg-red-300 duration-150 transition-all ease-in-out p-2 rounded text-white font-semibold"
+        <div
+          className="bg-red-400 cursor-pointer hover:bg-red-300 duration-150 transition-all ease-in-out p-2 rounded text-white font-semibold"
           onClick={handleClick}
         >
           Logout
-        </button>
+        </div>
       </div>
       <input
         id="todo-content"
