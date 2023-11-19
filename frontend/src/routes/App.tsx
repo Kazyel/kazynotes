@@ -9,9 +9,9 @@ const App = () => {
   const { isLoggedIn } = useUserStore();
 
   return (
-    <main className="flex p-4 justify-center w-full flex-col items-center">
+    <main className="flex w-full flex-col items-center justify-center p-4">
       {isLoggedIn ? (
-        <div className="w-[768px] flex flex-col h-min">
+        <div className="flex h-min w-[768px] flex-col">
           <p className="text-black"></p>
           <TodoForm />
           <div className="mt-4">

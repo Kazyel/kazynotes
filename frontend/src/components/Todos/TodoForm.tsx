@@ -23,9 +23,9 @@ const TodoForm = () => {
       span!.textContent = "The field cannot be empty.";
       span!.classList.remove("hidden");
     } else {
-      postTodo(postContent);
       span!.textContent = "";
       span!.classList.add("hidden");
+      postTodo(postContent);
     }
   };
 
@@ -37,15 +37,15 @@ const TodoForm = () => {
 
   return (
     <form
-      className="flex border rounded-md flex-col gap-3 py-6 px-4"
+      className="flex flex-col gap-3 rounded-md border px-4 py-6"
       onSubmit={handleSubmit}
     >
-      <div className="w-full flex justify-between items-center">
-        <label htmlFor="todo-content" className="font-semibold text-lg">
+      <div className="flex w-full items-center justify-between">
+        <label htmlFor="todo-content" className="text-lg font-semibold">
           {`${username}`} To-dos
         </label>
         <div
-          className="bg-red-400 cursor-pointer hover:bg-red-300 duration-150 transition-all ease-in-out p-2 rounded text-white font-semibold"
+          className="bg-red-400 hover:bg-red-300 text-white cursor-pointer rounded p-2 font-semibold transition-all duration-150 ease-in-out"
           onClick={handleClick}
         >
           Logout
@@ -57,12 +57,12 @@ const TodoForm = () => {
         ref={formInput}
         placeholder="Enter what you need to do..."
       ></input>
-      <button className="p-2 text-white bg-blue-500 mt-2 rounded-sm hover:bg-blue-400 duration-300 ease-in-out transition-all">
+      <button className="text-white bg-blue-500 hover:bg-blue-400 mt-2 rounded-sm p-2 transition-all duration-300 ease-in-out">
         Post
       </button>
       <span
         ref={emptyString}
-        className="hidden font-semibold text-red-500"
+        className="text-red-500 hidden font-semibold"
       ></span>
     </form>
   );

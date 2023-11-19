@@ -16,9 +16,9 @@ const Todos = ({ data }: TodosProps) => {
   return data?.map(({ id, content, checked }) => (
     <div
       key={id}
-      className="flex justify-between w-full items-center border gap-4 mt-2 rounded-md px-4 py-6"
+      className="mt-2 flex w-full items-center justify-between gap-4 rounded-md border px-4 py-6"
     >
-      <TodoContext id={id} content={content} checked={checked}/>
+      <TodoContext id={id} content={content} checked={checked} />
       <svg
         onClick={() => handleDelete(id)}
         xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,7 @@ const Todos = ({ data }: TodosProps) => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="w-7 h-7 cursor-pointer stroke-red-500"
+        className="stroke-red-500 h-7 w-7 cursor-pointer"
       >
         <path
           strokeLinecap="round"

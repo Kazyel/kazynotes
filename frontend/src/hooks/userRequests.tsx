@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../context/userContext";
@@ -6,7 +6,7 @@ import { useUserStore } from "../context/userContext";
 const userURL = "http://localhost:3000/user/";
 
 type loginData = {
-  username: FormDataEntryValue | null;
+  email: FormDataEntryValue | null;
   password: FormDataEntryValue | null;
 };
 
@@ -27,9 +27,9 @@ export const useLoginUser = () => {
   return useMutation({
     mutationFn: loginUser,
     onSuccess: async (data, variables: loginData) => {
+      const { id, username } = await getUserInfo(variables.email);
       setIsLoggedIn(true);
-      setUsername(`${variables.username}`);
-      const { id } = await getUserInfo(variables.username);
+      setUsername(`${username}`);
       setUserId(id);
       navigate("/");
     },
@@ -40,18 +40,8 @@ export const useLoginUser = () => {
   });
 };
 
-export const useDeleteUser = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: deleteUser,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
-    },
-  });
-};
-
-const getUserInfo = async (username: FormDataEntryValue | null) => {
-  const response = await axios.get(userURL + `${username}`);
+const getUserInfo = async (email: FormDataEntryValue | null) => {
+  const response = await axios.get(userURL + `${email}`);
   return response.data;
 };
 
@@ -65,21 +55,29 @@ const createUser = async (user: object) => {
 };
 
 const loginUser = async (user: object) => {
-  return await axios
-    .post(userURL + "login", { ...user, isLoggedIn: true })
-    .catch((err) => {
-      if (err.response) {
-        const error = err.response.data;
-        throw new Error(error);
-      }
-    });
-};
-
-const deleteUser = async (user: object) => {
-  return await axios.delete(userURL, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    data: user,
+  return await axios.post(userURL + "login", user).catch((err) => {
+    if (err.response) {
+      const error = err.response.data;
+      throw new Error(error);
+    }
   });
 };
+
+// export const useDeleteUser = () => {
+//   const queryClient = useQueryClient();
+//   return useMutation({
+//     mutationFn: deleteUser,
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["user"] });
+//     },
+//   });
+// };
+
+// const deleteUser = async (user: object) => {
+//   return await axios.delete(userURL, {
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     data: user,
+//   });
+// };
