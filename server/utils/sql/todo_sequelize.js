@@ -1,14 +1,18 @@
 const { Todo } = require("../models/models");
 
 // Get All Todos
-const getAllTodos = async () => {
-  const todos = await Todo.findAll();
+const getAllTodos = async (userId) => {
+  const todos = await Todo.findAll({
+    where: {
+      UserId: userId,
+    },
+  });
   return todos;
 };
 
 // Create Todos
-const createTodo = async (content) => {
-  await Todo.create(content);
+const createTodo = async (todo) => {
+  await Todo.create(todo);
 };
 
 // Update Todos
@@ -18,7 +22,7 @@ const updateTodo = async (todo) => {
       id: todo.id,
     },
   });
-  return updateTodo;
+  return updatedTodo;
 };
 
 // Delete Todos

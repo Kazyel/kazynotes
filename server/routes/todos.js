@@ -7,9 +7,9 @@ const {
 } = require("../utils/sql/todo_sequelize");
 
 const router = express.Router();
-// Get all Todos
-router.get("/", async (req, res) => {
-  const results = await getAllTodos();
+// Get all User Todos
+router.get("/:id", async (req, res) => {
+  const results = await getAllTodos(req.params.id);
   res.status(200).json(results);
 });
 
@@ -20,9 +20,9 @@ router.post("/", async (req, res) => {
 });
 
 // Updating
-router.patch("/", async (req, res) => {
-  await updateTodo(req.body);
-  const results = await getAllTodos();
+router.patch("/:id", async (req, res) => {
+  await updateTodo(req.body, req.params.id);
+  const results = await getAllTodos(req.params.id);
   res.status(200).json(results);
 });
 

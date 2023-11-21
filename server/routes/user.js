@@ -10,33 +10,31 @@ const { hash } = require("../utils/models/models");
 const express = require("express");
 const router = express.Router();
 
-// Get user info
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
-  const userResult = await getUser(id);
-  res.status(200).json(userResult);
+router.get("/:email", async (req, res) => {
+  const email = req.params.email;
+  const userData = await getUser(email);
+  res.status(200).json(userData);
 });
 
 // Register user
 router.post("/register", async (req, res) => {
-  try{
+  try {
     await registerUser(req.body);
-    res.status(200).send("User Created.");  
+    res.status(200).send("User Created.");
   } catch {
-    res.status(400).send("User already exists.")
+    res.status(400).send("Email already in use.");
   }
 });
 
 // Login
 router.post("/login", async (req, res) => {
-  username = req.body.username;
+  email = req.body.email;
   password = req.body.password;
-  log = req.body.isLoggedIn;
-  
+
   try {
-    const userResult = await loginUser(username, log);
+    const userResult = await loginUser(email);
     if (
-      username == userResult.username &&
+      email == userResult.email &&
       hash(password) == userResult.getDataValue("password")
     ) {
       res.status(200).send("Login Authorized");
@@ -44,7 +42,7 @@ router.post("/login", async (req, res) => {
       res.status(400).send("Wrong password.");
     }
   } catch {
-    const err = "User does not exist."
+    const err = "User does not exist.";
     res.status(400).json(err);
   }
 });
