@@ -16,7 +16,7 @@ const Todos = ({ data }: TodosProps) => {
   return data?.map(({ id, content, checked }) => (
     <div
       key={id}
-      className="mt-2 flex w-full items-center justify-between gap-4 rounded-md border px-4 py-6"
+      className="mt-2 flex w-full items-center justify-between gap-4 rounded bg-gradient-to-r from-primary-200 via-primary-100 to-primary-50 border px-4 py-4"
     >
       <TodoContext id={id} content={content} checked={checked} />
       <svg
@@ -26,7 +26,7 @@ const Todos = ({ data }: TodosProps) => {
         viewBox="0 0 24 24"
         strokeWidth={1.5}
         stroke="currentColor"
-        className="stroke-red-500 h-7 w-7 cursor-pointer"
+        className="h-7 w-7 stroke-text-900 cursor-pointer"
       >
         <path
           strokeLinecap="round"

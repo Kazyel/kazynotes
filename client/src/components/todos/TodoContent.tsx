@@ -14,14 +14,21 @@ const TodoContext = ({ id, content, checked }: ContentProps) => {
   };
 
   return (
-    <div className="flex justify-center gap-3" id={`${id}`}>
-      <input
-        type="checkbox"
-        className="w-4"
-        checked={checked}
-        onChange={() => handleCheck(id)}
-      />
-      <p className={`text-lg font-semibold ${checked ? "line-through " : ""}`}>
+    <div className="flex justify-center items-center gap-3" id={`${id}`}>
+      <div className="checkbox-wrapper-2 flex">
+        <input
+          type="checkbox"
+          className="sc-gJwTLC ikxBAC w-4"
+          checked={checked}
+          onChange={() => handleCheck(id)}
+        />
+        
+      </div>
+      <p
+        className={`text-lg font-semibold text-text-900 ${
+          checked ? "line-through " : ""
+        }`}
+      >
         {content}
       </p>
     </div>

@@ -4,10 +4,9 @@ import { useUserStore } from "../../context/userContext";
 import { usePostTodos } from "../../services/api/todosRequests";
 
 const TodoForm = () => {
-  const { username } = useUserStore();
   const { mutate: postTodo } = usePostTodos();
+  const { setIsLoggedIn, setUsername, userId, username } = useUserStore();
   const navigate = useNavigate();
-  const { setIsLoggedIn, setUsername, userId } = useUserStore();
   const formInput = useRef<HTMLInputElement>(null);
   const emptyString = useRef<HTMLElement>(null);
 
@@ -21,10 +20,8 @@ const TodoForm = () => {
 
     if (formInput.current?.value === "") {
       span!.textContent = "The field cannot be empty.";
-      span!.classList.remove("hidden");
     } else {
       span!.textContent = "";
-      span!.classList.add("hidden");
       postTodo(postContent);
     }
   };
@@ -36,16 +33,17 @@ const TodoForm = () => {
   };
 
   return (
-    <form
-      className="flex flex-col gap-3 rounded-md border px-4 py-6"
-      onSubmit={handleSubmit}
-    >
+    <form className="flex flex-col gap-3 py-6" onSubmit={handleSubmit}>
       <div className="flex w-full items-center justify-between">
-        <label htmlFor="todo-content" className="text-lg font-semibold">
-          {`${username}`} To-dos
+        <label
+          htmlFor="todo-content"
+          className="text-lg font-medium text-text-100"
+        >
+          <span className="font-bold text-text-200">User:</span>{" "}
+          {`${username.charAt(0).toUpperCase() + username.slice(1)}`}
         </label>
         <div
-          className="bg-red-400 hover:bg-red-300 text-white cursor-pointer rounded p-2 font-semibold transition-all duration-150 ease-in-out"
+          className="cursor-pointer rounded bg-secondary-300 px-3 py-2 font-semibold text-text-100 transition-all duration-150 ease-in-out hover:bg-secondary-400"
           onClick={handleClick}
         >
           Logout
@@ -53,17 +51,17 @@ const TodoForm = () => {
       </div>
       <input
         id="todo-content"
-        className="border p-2"
+        className="focus:outline-3 rounded bg-text-50 px-4 py-5 shadow placeholder:text-text-950/60 focus:outline focus:outline-1 focus:outline-offset-[-2px] focus:outline-text-800/75"
         ref={formInput}
         placeholder="Enter what you need to do..."
+        maxLength={50}
       ></input>
-      <button className="text-white bg-blue-500 hover:bg-blue-400 mt-2 rounded-sm p-2 transition-all duration-300 ease-in-out">
-        Post
-      </button>
-      <span
-        ref={emptyString}
-        className="text-red-500 hidden font-semibold"
-      ></span>
+      <div className="flex w-full items-center justify-between">
+        <span ref={emptyString} className="font-semibold text-text-200"></span>
+        <button className="mt-2 w-1/4 rounded bg-secondary-400 p-2 font-semibold text-text-100 transition-all duration-300 ease-in-out hover:bg-secondary-300">
+          Post
+        </button>
+      </div>
     </form>
   );
 };
