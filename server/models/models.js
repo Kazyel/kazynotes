@@ -68,7 +68,7 @@ User.hasMany(Todo, {
 
 Todo.belongsTo(User);
 
-// sequelize.sync({ force: true });
+// Todo.sync({ force: true });
 
 module.exports = {
   Todo,

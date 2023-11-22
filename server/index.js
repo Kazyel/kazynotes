@@ -13,4 +13,6 @@ app.use(bodyParser.json());
 app.use("/todos", todos);
 app.use("/user", user);
 
-app.listen(3000, () => console.log("Server Started"));
+const PORT = process.env.PORT || 3030;
+
+app.listen(PORT, () => console.log("Server Started"));

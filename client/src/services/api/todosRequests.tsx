@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUserStore } from "../../context/userContext";
 import axios from "axios";
 
-export const todoURL = "http://localhost:3000/todos/";
+const todoURL = import.meta.env.VITE_ENDPOINT;
 
 export const useGetTodos = () => {
   const { userId } = useUserStore();

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../context/userContext";
 import axios from "axios";
 
-const userURL = "http://localhost:3000/user/";
+const userURL = import.meta.env.VITE_ENDPOINT;
 
 type loginData = {
   email: FormDataEntryValue | null;

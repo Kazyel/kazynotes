@@ -1,4 +1,4 @@
-const { User } = require("../models/models");
+const { User } = require("../../models/models");
 
 // Get All Todos
 const getUser = async (email) => {

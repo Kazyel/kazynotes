@@ -5,7 +5,7 @@ const {
   deleteUser,
 } = require("../utils/sql/user_sequelize");
 
-const { hash } = require("../utils/models/models");
+const { hash } = require("../models/models");
 
 const express = require("express");
 const router = express.Router();
