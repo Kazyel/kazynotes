@@ -1,4 +1,4 @@
-# Todo Practice 📑
+# KazyNotes 📑
 
 Every web developer one day has to make at least one "todo app", right? No, but this is my take! :fire:
 
